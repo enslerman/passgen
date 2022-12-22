@@ -52,5 +52,6 @@ func main() {
 	if copyToClipboard {
 		clipboard.Write(clipboard.FmtText, []byte(pass))
 	}
+	fmt.Printf("Success generate password with len: %v, copy to clipboard: %v\n", passLen, copyToClipboard)
 	fmt.Println(pass)
 }
