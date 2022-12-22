@@ -1,11 +1,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"golang.design/x/clipboard"
 	"math/rand"
-	"os"
-	"strconv"
 	"time"
 )
 
@@ -26,20 +25,15 @@ func main() {
 		copyToClipboard = defaultCopyToClipboard
 	)
 
-	args := os.Args
+	l := flag.Int("l", defaultPassLen, "# len of password")
+	c := flag.Bool("c", defaultCopyToClipboard, "# copy to clipboard: false or true")
+	flag.Parse()
 
-	switch len(args) {
-	case 2:
-		c, err := strconv.ParseBool(args[1])
-		if err == nil {
-			copyToClipboard = c
-		}
-		fallthrough
-	case 1:
-		i, err := strconv.ParseInt(args[0], 10, 64)
-		if err == nil {
-			passLen = int(i)
-		}
+	if l != nil {
+		passLen = *l
+	}
+	if c != nil {
+		copyToClipboard = *c
 	}
 
 	rand.Seed(time.Now().UnixNano())
