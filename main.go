@@ -3,15 +3,15 @@ package main
 import (
 	"flag"
 	"fmt"
-	"golang.design/x/clipboard"
 	"math/rand"
-	"time"
+
+	"golang.design/x/clipboard"
 )
 
-var symbols = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
+var symbols = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=")
 
 const (
-	defaultPassLen         = 48
+	defaultPassLen         = 64
 	defaultCopyToClipboard = true
 )
 
@@ -36,7 +36,6 @@ func main() {
 		copyToClipboard = *c
 	}
 
-	rand.Seed(time.Now().UnixNano())
 	b := make([]rune, passLen)
 	for i := range b {
 		b[i] = symbols[rand.Intn(len(symbols))]
