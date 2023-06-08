@@ -43,7 +43,7 @@ func main() {
 	}
 
 	b := make([]rune, passLen)
-	if s {
+	if s != nil && *s {
 		for i := range b {
 			b[i] = symbols[rand.Intn(len(symbolsSpec))]
 		}
