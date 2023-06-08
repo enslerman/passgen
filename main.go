@@ -8,7 +8,10 @@ import (
 	"golang.design/x/clipboard"
 )
 
-var symbols = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=")
+var (
+	symbolsSpec = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=")
+	symbols     = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
+)
 
 const (
 	defaultPassLen         = 64
@@ -23,10 +26,13 @@ func main() {
 	var (
 		passLen         = defaultPassLen
 		copyToClipboard = defaultCopyToClipboard
+
+		withoutSpecSymbols bool
 	)
 
 	l := flag.Int("l", defaultPassLen, "# len of password")
 	c := flag.Bool("c", defaultCopyToClipboard, "# copy to clipboard: false or true")
+	s := flag.Bool("s", withoutSpecSymbols, "# without spec symbols: false or true")
 	flag.Parse()
 
 	if l != nil {
@@ -37,8 +43,14 @@ func main() {
 	}
 
 	b := make([]rune, passLen)
-	for i := range b {
-		b[i] = symbols[rand.Intn(len(symbols))]
+	if s {
+		for i := range b {
+			b[i] = symbols[rand.Intn(len(symbolsSpec))]
+		}
+	} else {
+		for i := range b {
+			b[i] = symbols[rand.Intn(len(symbols))]
+		}
 	}
 	pass := string(b)
 
