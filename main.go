@@ -20,23 +20,23 @@ func main() {
 	}
 
 	var (
-		passLen            = 64
-		copyToClipboard    = true
-		withoutSpecSymbols = true
+		passLen         = 64
+		copyToClipboard = true
+		specSymbols     = false
 
 		err error
 	)
 
 	l := flag.Int("l", passLen, "# len of password")
 	c := flag.String("c", fmt.Sprint(copyToClipboard), "# copy to clipboard: false or true")
-	s := flag.String("s", fmt.Sprint(withoutSpecSymbols), "# without spec symbols: false or true")
+	s := flag.String("s", fmt.Sprint(specSymbols), "# spec symbols: false or true")
 	flag.Parse()
 
 	if l != nil {
 		passLen = *l
 	}
 	if s != nil {
-		withoutSpecSymbols, err = strconv.ParseBool(*s)
+		specSymbols, err = strconv.ParseBool(*s)
 		if err != nil {
 			log.Fatalf("cannot parse param 's' - without spec symbols, err: %v", err)
 		}
@@ -49,7 +49,7 @@ func main() {
 	}
 
 	b := make([]rune, 0, passLen)
-	if withoutSpecSymbols {
+	if specSymbols {
 		for i := 0; i < passLen; i++ {
 			b = append(b, symbolsSpec[rand.Intn(len(symbolsSpec))])
 		}
@@ -63,6 +63,6 @@ func main() {
 	if copyToClipboard {
 		clipboard.Write(clipboard.FmtText, []byte(pass))
 	}
-	fmt.Printf("Success generate password with len: %v; without spec symbols: %v; copy to clipboard: %v\n", passLen, withoutSpecSymbols, copyToClipboard)
+	fmt.Printf("Success generate password with len: %v; spec symbols: %v; copy to clipboard: %v\n", passLen, specSymbols, copyToClipboard)
 	fmt.Println(pass)
 }
