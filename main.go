@@ -1,11 +1,12 @@
 package main
 
 import (
+	"crypto/rand"
 	"flag"
 	"fmt"
+	log "github.com/sirupsen/logrus"
 	"golang.design/x/clipboard"
-	"log"
-	"math/rand"
+	"math/big"
 	"strconv"
 )
 
@@ -50,12 +51,20 @@ func main() {
 
 	b := make([]rune, 0, passLen)
 	if specSymbols {
-		for i := 0; i < passLen; i++ {
-			b = append(b, symbolsSpec[rand.Intn(len(symbolsSpec))])
+		for range passLen {
+			n, err := rand.Int(rand.Reader, big.NewInt(int64(len(symbolsSpec))))
+			if err != nil {
+				log.Fatalf("cannot read random number, err: %v", err)
+			}
+			b = append(b, symbolsSpec[n.Int64()])
 		}
 	} else {
-		for i := 0; i < passLen; i++ {
-			b = append(b, symbols[rand.Intn(len(symbols))])
+		for range passLen {
+			n, err := rand.Int(rand.Reader, big.NewInt(int64(len(symbols))))
+			if err != nil {
+				log.Fatalf("cannot read random number, err: %v", err)
+			}
+			b = append(b, symbols[n.Int64()])
 		}
 	}
 	pass := string(b)

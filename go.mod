@@ -1,8 +1,11 @@
 module github.com/enslerman/passgen
 
-go 1.20
+go 1.22.5
 
-require golang.design/x/clipboard v0.7.0
+require (
+	github.com/sirupsen/logrus v1.9.3
+	golang.design/x/clipboard v0.7.0
+)
 
 require (
 	golang.org/x/exp v0.0.0-20190731235908-ec7cb31e5a56 // indirect
